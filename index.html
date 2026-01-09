@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pendaftaran Rihlah Kajian Ahad</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; }
+    .container { max-width: 450px; margin: auto; background: #fff; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    h2 { text-align: center; font-size: 18px; color: #1a5f7a; line-height: 1.4; text-transform: uppercase; margin-bottom: 20px; }
+    
+    /* Box Counter */
+    .counter-card { background: #e8f5e9; border: 1px solid #27ae60; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; }
+    .counter-label { font-size: 13px; color: #555; display: block; margin-bottom: 5px; }
+    .counter-number { font-size: 26px; font-weight: bold; color: #27ae60; }
+    
+    label { font-weight: 600; font-size: 13px; display: block; margin-bottom: 8px; color: #555; }
+    input, select { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+    
+    button { width: 100%; padding: 15px; background-color: #27ae60; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; }
+    button:hover { background-color: #219150; }
+    button:disabled { background-color: #ccc; cursor: not-allowed; }
+    
+    #status { margin-top: 15px; text-align: center; font-weight: bold; padding: 10px; border-radius: 8px; display: none; }
+    .success { display: block !important; background: #d4edda; color: #155724; }
+    .error { display: block !important; background: #f8d7da; color: #721c24; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>UMUM - PENDAFTARAN RIHLAH KAJIAN AHAD KE 1<br>VILLA SILVER, TRAWAS, MOJOKERTO<br>08 FEBRUARI 2026</h2>
+
+  <div class="counter-card">
+    <span class="counter-label">Pendaftar Rombongan Bis saat ini:</span>
+    <div class="counter-number"><span id="countBis">...</span> / <span id="maxBis">50</span></div>
+  </div>
+
+  <form id="rihlahForm">
+    <label>Nama Lengkap</label>
+    <input type="text" id="nama" name="nama" placeholder="Masukkan nama Anda" required>
+
+    <label>Nomor HP (WhatsApp)</label>
+    <input type="tel" id="nohp" name="nohp" placeholder="0812xxxxxxxx" required>
+
+    <label>Pilihan Kendaraan</label>
+    <select id="kendaraan" name="kendaraan" required>
+      <option value="">-- Pilih Kendaraan --</option>
+      <option value="Rombongan Bis">Rombongan Bis</option>
+      <option value="Bawa kendaraan sendiri">Bawa kendaraan sendiri</option>
+    </select>
+
+    <button type="button" id="submitBtn" onclick="submitData()">DAFTAR SEKARANG</button>
+  </form>
+
+  <div id="status"></div>
+</div>
+
+<script>
+  // GANTI DENGAN URL WEB APP GOOGLE SCRIPT ANDA
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbzO08U5ZPO3rYpHavI738wJNgm9l1bxvrJ5j17Bhw-lmdNEgMG27ysYn6qP3Elxo09G/exec';
+
+  // Ambil jumlah pendaftar saat halaman dibuka
+  async function updateCounter() {
+    try {
+      const response = await fetch(scriptURL);
+      const data = await response.json();
+      document.getElementById('countBis').innerText = data.totalBis;
+      document.getElementById('maxBis').innerText = data.limitBis;
+    } catch (error) {
+      console.error('Gagal mengambil data kuota', error);
+      document.getElementById('countBis').innerText = '0';
+    }
+  }
+
+  // Jalankan counter saat Load
+  window.onload = updateCounter;
+
+  async function submitData() {
+    const form = document.getElementById('rihlahForm');
+    const btn = document.getElementById('submitBtn');
+    const statusDiv = document.getElementById('status');
+
+    if (!form.checkValidity()) {
+      alert("Mohon isi semua data dengan benar.");
+      return;
+    }
+
+    const payload = {
+      nama: document.getElementById('nama').value,
+      nohp: document.getElementById('nohp').value,
+      kendaraan: document.getElementById('kendaraan').value
+    };
+
+    btn.disabled = true;
+    btn.innerText = "Memproses...";
+    statusDiv.style.display = "none";
+
+    try {
+      const response = await fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+      const result = await response.text();
+
+      statusDiv.innerText = result;
+      if (result.includes("BERHASIL")) {
+        statusDiv.className = "success";
+        form.reset();
+        updateCounter(); // Update angka kuota setelah berhasil daftar
+      } else {
+        statusDiv.className = "error";
+      }
+    } catch (error) {
+      statusDiv.innerText = "Terjadi gangguan koneksi!";
+      statusDiv.className = "error";
+    } finally {
+      btn.disabled = false;
+      btn.innerText = "DAFTAR SEKARANG";
+    }
+  }
+</script>
+
+</body>
+</html>
