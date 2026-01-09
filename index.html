@@ -4,76 +4,229 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pendaftaran Rihlah Kajian Ahad</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; }
-    .container { max-width: 450px; margin: auto; background: #fff; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-    h2 { text-align: center; font-size: 18px; color: #1a5f7a; line-height: 1.4; text-transform: uppercase; margin-bottom: 20px; }
-    
-    /* Box Counter */
-    .counter-card { background: #e8f5e9; border: 1px solid #27ae60; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; }
-    .counter-label { font-size: 13px; color: #555; display: block; margin-bottom: 5px; }
-    .counter-number { font-size: 26px; font-weight: bold; color: #27ae60; }
-    
-    label { font-weight: 600; font-size: 13px; display: block; margin-bottom: 8px; color: #555; }
-    input, select { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
-    
-    button { width: 100%; padding: 15px; background-color: #27ae60; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; }
-    button:hover { background-color: #219150; }
-    button:disabled { background-color: #ccc; cursor: not-allowed; }
-    
-    #status { margin-top: 15px; text-align: center; font-weight: bold; padding: 10px; border-radius: 8px; display: none; }
-    .success { display: block !important; background: #d4edda; color: #155724; }
-    .error { display: block !important; background: #f8d7da; color: #721c24; }
+    :root {
+      --primary: #27ae60;
+      --primary-dark: #219150;
+      --secondary: #1a5f7a;
+      --bg: #f0f4f3;
+      --white: #ffffff;
+      --text: #333;
+    }
+
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      background: linear-gradient(135deg, #e8f5e9 0%, #f0f4f3 100%); 
+      margin: 0; 
+      padding: 20px; 
+      color: var(--text); 
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .container { 
+      max-width: 480px; 
+      margin: auto; 
+      background: var(--white); 
+      padding: 40px 30px; 
+      border-radius: 20px; 
+      box-shadow: 0 15px 35px rgba(0,0,0,0.08); 
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+
+    .header-logo {
+      text-align: center;
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    h2 { 
+      text-align: center; 
+      font-size: 16px; 
+      color: var(--secondary); 
+      line-height: 1.6; 
+      text-transform: uppercase; 
+      margin-bottom: 30px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Box Counter Modern */
+    .counter-card { 
+      background: linear-gradient(135deg, #ffffff 0%, #f1f8e9 100%);
+      border: 2px solid var(--primary); 
+      padding: 20px; 
+      border-radius: 15px; 
+      text-align: center; 
+      margin-bottom: 30px; 
+      position: relative;
+      overflow: hidden;
+    }
+
+    .counter-label { 
+      font-size: 12px; 
+      color: #666; 
+      display: block; 
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    .counter-number { 
+      font-size: 32px; 
+      font-weight: 700; 
+      color: var(--primary); 
+    }
+
+    .counter-number span#maxBis {
+      color: #999;
+      font-size: 18px;
+    }
+
+    /* Form Styling */
+    .input-group { margin-bottom: 20px; }
+
+    label { 
+      font-weight: 600; 
+      font-size: 13px; 
+      display: block; 
+      margin-bottom: 8px; 
+      color: var(--secondary); 
+    }
+
+    input, select { 
+      width: 100%; 
+      padding: 14px 16px; 
+      border: 2px solid #eee; 
+      border-radius: 12px; 
+      box-sizing: border-box; 
+      font-size: 14px; 
+      transition: all 0.3s ease;
+      background: #fafafa;
+    }
+
+    input:focus, select:focus { 
+      border-color: var(--primary); 
+      outline: none; 
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.1);
+    }
+
+    button { 
+      width: 100%; 
+      padding: 16px; 
+      background: var(--primary); 
+      color: white; 
+      border: none; 
+      border-radius: 12px; 
+      cursor: pointer; 
+      font-size: 16px; 
+      font-weight: 700; 
+      transition: all 0.3s ease; 
+      box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+      margin-top: 10px;
+    }
+
+    button:hover { 
+      background-color: var(--primary-dark); 
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(39, 174, 96, 0.4);
+    }
+
+    button:active { transform: translateY(0); }
+
+    button:disabled { 
+      background-color: #bdc3c7; 
+      cursor: not-allowed; 
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* Status Messages */
+    #status { 
+      margin-top: 20px; 
+      text-align: center; 
+      font-weight: 600; 
+      padding: 15px; 
+      border-radius: 12px; 
+      display: none; 
+      font-size: 14px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .success { display: block !important; background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+    .error { display: block !important; background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 11px;
+      color: #999;
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>UMUM - PENDAFTARAN RIHLAH KAJIAN AHAD KE 1<br>VILLA SILVER, TRAWAS, MOJOKERTO<br>08 FEBRUARI 2026</h2>
+  <div class="header-logo">🚐</div>
+  <h2>UMUM - PENDAFTARAN RIHLAH KAJIAN AHAD KE 1<br>VILLA SILVER, TRAWAS<br><span style="color:var(--primary)">08 FEBRUARI 2026</span></h2>
 
   <div class="counter-card">
-    <span class="counter-label">Pendaftar Rombongan Bis saat ini:</span>
-    <div class="counter-number"><span id="countBis">...</span> / <span id="maxBis">50</span></div>
+    <span class="counter-label">KUOTA ROMBONGAN BIS</span>
+    <div class="counter-number">
+      <span id="countBis">...</span><span id="maxBis"> / 50</span>
+    </div>
+    <div style="font-size: 10px; color: #888; margin-top: 5px;">*Terupdate otomatis</div>
   </div>
 
   <form id="rihlahForm">
-    <label>Nama Lengkap</label>
-    <input type="text" id="nama" name="nama" placeholder="Masukkan nama Anda" required>
+    <div class="input-group">
+      <label>Nama Lengkap</label>
+      <input type="text" id="nama" name="nama" placeholder="Contoh: Abdullah" required>
+    </div>
 
-    <label>Nomor HP (WhatsApp)</label>
-    <input type="tel" id="nohp" name="nohp" placeholder="0812xxxxxxxx" required>
+    <div class="input-group">
+      <label>Nomor WhatsApp</label>
+      <input type="tel" id="nohp" name="nohp" placeholder="081234567890" required>
+    </div>
 
-    <label>Pilihan Kendaraan</label>
-    <select id="kendaraan" name="kendaraan" required>
-      <option value="">-- Pilih Kendaraan --</option>
-      <option value="Rombongan Bis">Rombongan Bis</option>
-      <option value="Bawa kendaraan sendiri">Bawa kendaraan sendiri</option>
-    </select>
+    <div class="input-group">
+      <label>Pilihan Kendaraan</label>
+      <select id="kendaraan" name="kendaraan" required>
+        <option value="">-- Pilih Kendaraan --</option>
+        <option value="Rombongan Bis">Rombongan Bis (Ber-Kuota)</option>
+        <option value="Bawa kendaraan sendiri">Bawa kendaraan sendiri (Tanpa Limit)</option>
+      </select>
+    </div>
 
     <button type="button" id="submitBtn" onclick="submitData()">DAFTAR SEKARANG</button>
   </form>
 
   <div id="status"></div>
+  <footer>© 2026 Panitia Rihlah Kajian Ahad</footer>
 </div>
 
 <script>
-  // GANTI DENGAN URL WEB APP GOOGLE SCRIPT ANDA
   const scriptURL = 'https://script.google.com/macros/s/AKfycbzO08U5ZPO3rYpHavI738wJNgm9l1bxvrJ5j17Bhw-lmdNEgMG27ysYn6qP3Elxo09G/exec';
 
-  // Ambil jumlah pendaftar saat halaman dibuka
   async function updateCounter() {
     try {
       const response = await fetch(scriptURL);
       const data = await response.json();
       document.getElementById('countBis').innerText = data.totalBis;
-      document.getElementById('maxBis').innerText = data.limitBis;
+      // Gunakan nilai dari script jika ada, jika tidak pakai 50
+      document.getElementById('maxBis').innerText = " / " + (data.limitBis || 50);
     } catch (error) {
       console.error('Gagal mengambil data kuota', error);
       document.getElementById('countBis').innerText = '0';
     }
   }
 
-  // Jalankan counter saat Load
   window.onload = updateCounter;
 
   async function submitData() {
@@ -93,7 +246,7 @@
     };
 
     btn.disabled = true;
-    btn.innerText = "Memproses...";
+    btn.innerText = "Sedang Mengirim...";
     statusDiv.style.display = "none";
 
     try {
@@ -107,12 +260,12 @@
       if (result.includes("BERHASIL")) {
         statusDiv.className = "success";
         form.reset();
-        updateCounter(); // Update angka kuota setelah berhasil daftar
+        updateCounter(); 
       } else {
         statusDiv.className = "error";
       }
     } catch (error) {
-      statusDiv.innerText = "Terjadi gangguan koneksi!";
+      statusDiv.innerText = "Terjadi gangguan koneksi! Silakan coba lagi.";
       statusDiv.className = "error";
     } finally {
       btn.disabled = false;
